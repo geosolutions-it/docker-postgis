@@ -21,7 +21,7 @@ su - postgres -c "psql               \
 --set=gwc_quota_db="${PG_GS_QUOTA_DB}"                    \
 -f /docker-entrypoint-initdb.d/setup_osm.sql"
 
-su - postgres -c "gunzip < /docker-entrypoint-initdb.d/osm_shapefiles.sql.gz | psql -U postgres -d osm_shapefiles"
+su - postgres -c "gunzip < /docker-entrypoint-initdb.d/osm_shapefiles.sql.gz | psql -U postgres -d ${PG_OSM_SHAPEFILES_DB}"
 
 ##TODO: Test Setup
 
