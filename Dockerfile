@@ -42,6 +42,8 @@ RUN chmod +x /docker-entrypoint.sh
 RUN mkdir /docker-entrypoint-initdb.d
 #ADD restore/osm_shapefiles.sql.gz /docker-entrypoint-initdb.d/osm_shapefiles.sql.gz
 ADD https://goo.gl/cvfonM /docker-entrypoint-initdb.d/osm_shapefiles.sql.gz
+RUN chmod 777 /docker-entrypoint-initdb.d \
+    && chmod 444 /docker-entrypoint-initdb.d/osm_shapefiles.sql.gz
 ADD setup_osm.sql /docker-entrypoint-initdb.d/setup_osm.sql
 ADD setup_osm.sh /setup_osm.sh
 RUN chmod +x /setup_osm.sh
