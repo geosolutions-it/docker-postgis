@@ -10,7 +10,7 @@ until su - postgres -c "psql -l"; do
 done
 echo "postgres ready"
 
-echo "Setting up OSM databases"
+echo "setting up OSM databases"
 su - postgres -c "psql               \
 --set=gs_role="${GS_PG_USER}"        \
 --set=gs_pass="${GS_PG_PASSWORD}"        \
@@ -21,9 +21,29 @@ su - postgres -c "psql               \
 --set=gwc_quota_db="${PG_GS_QUOTA_DB}"                    \
 -f /docker-entrypoint-initdb.d/setup_osm.sql"
 
+echo "restoring OSM shapefiles DB"
 su - postgres -c "gunzip < /docker-entrypoint-initdb.d/osm_shapefiles.sql.gz | psql -U postgres -d ${PG_OSM_SHAPEFILES_DB}"
 
-##TODO: Test Setup
+# Check user exists
+RESULT=`su - postgres -c "psql postgres -t -c \"SELECT 1 FROM pg_roles WHERE rolname = '${GS_PG_USER}'\""`
+if [ -z "$RESULT" ]; then
+  echo "DB initialization error, user ${GS_PG_USER} does not exist!"
+  exit 1
+fi
+
+# Check DBs exists
+RESULT=`su - postgres -c "psql -l | grep -w ${PG_OSM_SHAPEFILES_DB} | wc -l"`
+if [ -z "$RESULT" ]; then
+  echo "DB initialization error, database ${PG_OSM_SHAPEFILES_DB} does not exist!"
+  exit 1
+fi
+
+# Check DBs exists
+RESULT=`su - postgres -c "psql -l | grep -w ${IMPOSM_DBNAME} | wc -l"`
+if [ -z "$RESULT" ]; then
+  echo "DB initialization error, database ${IMPOSM_DBNAME} does not exist!"
+  exit 1
+fi
 
 # This should show up in docker logs afterwards
 su - postgres -c "psql -l"
