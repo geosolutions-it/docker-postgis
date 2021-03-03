@@ -4,17 +4,7 @@
 
 A simple docker container that runs PostGIS
 
-Visit our page on the docker hub at: https://registry.hub.docker.com/u/kartoza/postgis/
-
-There are a number of other docker postgis containers out there. This one
-differentiates itself by:
-
-* provides ssl support out of the box
-* connections are restricted to the docker subnet
-* template_postgis database template is created for you
-* a default database 'gis' is created for you so you can use this container 'out of the
-  box' when it runs with e.g. QGIS
-* supports single master replication
+Visit the page on the [docker hub](https://hub.docker.com/r/postgis/postgis/) 
 
 We will work to add more security features to this container in the future with 
 the aim of making a PostGIS image that is ready to be used in a production 
@@ -30,11 +20,11 @@ just getting started with docker, PostGIS and QGIS, we really recommend that you
 
 The following convention is used for tagging the images we build:
 
-kartoza/postgis:[postgres_version]-[postgis-version]
+postgis/postgis:[postgres_version]-[postgis-version]
 
 So for example:
 
-``kartoza/postgis:9.6-2.4`` Provides PostgreSQL 9.6, PostGIS 2.4
+``postgis/postgis:11-3.1`` Provides PostgreSQL 11, PostGIS 3.1
 
 **Note:** We highly recommend that you use tagged versions because
 successive minor versions of PostgreSQL write their database clusters
@@ -52,29 +42,14 @@ get our docker trusted build like this:
 
 
 ```
-docker pull kartoza/postgis
+docker pull postgis/postgis
 ```
 
 To build the image yourself without apt-cacher (also consumes more bandwidth
 since deb packages need to be refetched each time you build) do:
 
 ```
-docker build -t kartoza/postgis git://github.com/kartoza/docker-postgis
-```
-
-To build with apt-cache (and minimised download requirements) do you need to
-clone this repo locally first and modify the contents of 71-apt-cacher-ng to
-match your cacher host. Then build using a local url instead of directly from
-github.
-
-```
-git clone git://github.com/kartoza/docker-postgis
-```
-
-Now edit ``71-apt-cacher-ng`` then do:
-
-```
-docker build -t kartoza/postgis .
+docker build -t geosolutionsit/postgis https://github.com/geosolutions-it/docker-postgis
 ```
 
 ## Run
@@ -83,7 +58,7 @@ docker build -t kartoza/postgis .
 To create a running container do:
 
 ```
-sudo docker run --name "postgis" -p 25432:5432 -d -t kartoza/postgis
+sudo docker run --name "postgis" -p 25432:5432 -d -t geosolutionsit/postgis
 ```
 
 ## Environment variables
@@ -281,5 +256,6 @@ on restart because docker will recreate the container.
 
 ## Credits
 
-Tim Sutton (tim@kartoza.com)
-May 2014
+Asdrubal Gonzalez Penton (asdrubal.gonzalez@geo-solutions.it)
+Alessandro Parma (alessandro.parma@geo-solutions.it)
+March 2021
