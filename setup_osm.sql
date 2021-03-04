@@ -1,5 +1,5 @@
 CREATE ROLE gs_role WITH LOGIN PASSWORD 'gs_pass';
-CREATE ROLE geoserver WITH LOGIN PASSWORD 'QO7mqieY784Y';
+CREATE ROLE geoserver WITH LOGIN PASSWORD 'geoserver_pass';
 --
 -- -- OSM DB
 -- CREATE DATABASE imposm_db;
