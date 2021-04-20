@@ -1,5 +1,5 @@
 FROM postgis/postgis:11-3.1
-MAINTAINER asdrubal gonzalez <agpenton@gmail.com>
+MAINTAINER asdrubal gonzalez <asdrubal.gonzalez@geo-solutions.it>
 
 ADD https://goo.gl/cvfonM /db/osm_shapefiles.sql.gz
 RUN chmod 777 /db \
